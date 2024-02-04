@@ -1,1 +1,2 @@
-  celery~=5.3
+  celery[redis]~=5.3
+  yt-dlp==2023.12.30

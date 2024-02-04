@@ -2,7 +2,7 @@ FROM python:3.11-alpine
 
 # Install pip
 RUN --mount=type=cache,target=/var/cache/apk \
-    apk upgrade --available && \
+    apk update && \
     apk add py3-pip=23.3.1-r0
 
 RUN mkdir -p /app
