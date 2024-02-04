@@ -9,7 +9,8 @@ ENV PATH="${PATH}:/home/chrome/.local/bin"
 ENV PATH="${PATH}:/usr/src/app/node_modules/single-file-cli"
 
 RUN pip3 install --no-cache-dir --user \
-  yt-dlp==2023.12.30
+  yt-dlp==2023.12.30 \
+  celery==5.3.6
 
 WORKDIR /usr/src/app
 
