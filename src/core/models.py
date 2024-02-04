@@ -1,6 +1,10 @@
+from pathlib import Path
 from django.db import models
 
+from core.tasks import get_controller
+
 SCRAPE_STATUS_CHOICES = [
+    ("Initial", "Initial"),
     ("Scraping", "Scraping"),
     ("Scraped", "Scraped"),
     ("Failed", "Failed"),
@@ -10,15 +14,39 @@ SCRAPE_STATUS_CHOICES = [
 
 class Bookmark(models.Model):
     # Only URL will be set by the user
-    url = models.URLField()
+    url = models.URLField(unique=True)
     created = models.DateTimeField(auto_now_add=True)
-    scrape_status = models.CharField(max_length=100, choices=SCRAPE_STATUS_CHOICES, default="Scraping")
+    scrape_status = models.CharField(max_length=16, choices=SCRAPE_STATUS_CHOICES, default="Initial")
+    media_status = models.CharField(max_length=16, choices=SCRAPE_STATUS_CHOICES, default="Initial")
 
     title = models.CharField(max_length=100, null=True)
-    single_file_html_path = models.FilePathField(path="/", recursive=True, null=True)
-    media_path = models.FilePathField(path="/", recursive=True, null=True)
+    single_file_html_path = models.FilePathField(max_length=256, path="/", recursive=True, null=True)
+    media_path = models.FilePathField(max_length=256, path="/", recursive=True, null=True)
 
     def __str__(self):
         if self.title is not None:
             return self.title
         return self.url
+
+    def save(self, *args, **kwargs):
+        celery = get_controller()
+        if self.scrape_status == "Initial":
+            celery.send_task('scrape_page', args=[self.url])
+            self.scrape_status = "Scraping"
+        if self.media_status == "Initial":
+            celery.send_task('get_media', args=[self.url])
+            self.media_status = "Scraping"
+
+        if self.title is None:
+            self.title = self.url
+            self.title = self.title[:100]
+
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+
+        if self.single_file_html_path is not None:
+            # TODO: there might be multiple htmls from different dates
+            Path(self.single_file_html_path).unlink()
+            Path(self.media_path).unlink()

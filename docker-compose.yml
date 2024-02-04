@@ -21,11 +21,15 @@ services:
       - .env
     volumes:
       - ./data/db:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
 
   scraper:
     build:
       context: .
       dockerfile: docker/scrapers.Dockerfile
+    env_file:
+      - .env
     environment:
       - PYTHONPATH=/app/src
     volumes:
@@ -36,5 +40,3 @@ services:
 
   redis:
     image: redis:7-alpine
-    ports:
-      - "6379:6379"
