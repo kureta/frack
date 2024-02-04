@@ -6,6 +6,10 @@ RUN --mount=type=cache,target=/var/cache/apk \
     apk update && \
     apk add py3-pip=22.3.1-r1
 
+# Install yt-dlp
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip3 install yt-dlp==2023.12.30
+
 RUN mkdir -p /app
 WORKDIR /app
 
