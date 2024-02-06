@@ -1,0 +1,119 @@
+{#<ul>#}
+{#    {% for item in items %}#}
+{#        <li>#}
+{#            <a href="{{ item.url }}" target=_blank>{{ item.title }}</a>#}
+{#            {% if item.media %}#}
+{#                <video width="320" height="240" controls>#}
+{#                    <source src="{{ item.media }}" type="video/mp4">#}
+{#                    Your browser does not support the video tag.#}
+{#                </video>#}
+{#            {% endif %}#}
+{#        </li>#}
+{#    {% endfor %}#}
+{#</ul>#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Web Page Title</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+        nav {
+            background-color: #555;
+            color: #fff;
+            padding: 10px;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav li {
+            margin: 0 10px;
+        }
+        .hero {
+            background-image: url('your-hero-image.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            text-align: center;
+            padding: 100px 0;
+        }
+        .main-content {
+            padding: 20px;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Your Website</h1>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<div class="hero">
+    <h2>Welcome to Your Website</h2>
+    <p>Discover amazing things here!</p>
+</div>
+
+<div class="main-content">
+    <h2>Main Content Title</h2>
+    <p>Your content goes here.</p>
+    <form id="urlForm">
+        <label for="urlInput">Enter a Validated URL:</label>
+        <input type="url" id="urlInput" name="url" required pattern="https?://.+">
+        <small>Include ftp:// or https://</small>
+
+        <button type="button" onclick="validateURL()">Submit</button>
+    </form>
+</div>
+
+<footer>
+    &copy; 2024 Your Website. All rights reserved.
+</footer>
+
+<script>
+    function validateURL() {
+        const urlInput = document.getElementById('urlInput').value;
+        const urlPattern = /^(https?|ftp):\/\/[^\s/$.?#].\S*$/;
+
+        if (urlPattern.test(urlInput)) {
+            alert('URL is valid! You can proceed with your OpenAPI call.');
+            // Add your OpenAPI call logic here
+        } else {
+            alert('Invalid URL! Please enter a valid URL.');
+        }
+    }
+</script>
+</body>
+</html>

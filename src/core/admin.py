@@ -12,6 +12,7 @@ class BookmarkAdmin(admin.ModelAdmin):
         "title",
         "single_file_html_path",
         "media_path",
+        "media_status",
     ]
     readonly_fields = [
         "title",
@@ -19,6 +20,7 @@ class BookmarkAdmin(admin.ModelAdmin):
         "scrape_status",
         "single_file_html_path",
         "media_path",
+        "media_status",
     ]
 
     def has_change_permission(self, request, obj=None):

@@ -48,5 +48,6 @@ class Bookmark(models.Model):
 
         if self.single_file_html_path is not None:
             # TODO: there might be multiple htmls from different dates
-            Path(self.single_file_html_path).unlink()
-            Path(self.media_path).unlink()
+            Path(self.single_file_html_path).unlink(missing_ok=True)
+        if self.media_path is not None:
+            Path(self.media_path).unlink(missing_ok=True)
