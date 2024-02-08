@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: docker/django.Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - scraper
+      - db
+
+  db:
+    image: postgres:16-alpine
+    env_file:
+      - .env
+    volumes:
+      - ./data/db:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+
+  scraper:
+    build:
+      context: .
+      dockerfile: docker/scrapers.Dockerfile
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app/src
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+    entrypoint: celery -A worker.tasks worker --loglevel=INFO
+
+  redis:
+    image: redis:7-alpine
