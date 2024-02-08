@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from core.models import Bookmark
+from django.http.response import JsonResponse
 
 
 def disk_to_url(path):
@@ -18,12 +19,11 @@ def process_bookmark(bookmark):
     title = bookmark.title
 
     # TODO: both original url and archived url should be shown
-    return {"url": url, "media": media, "title": title}
+    return {"id": bookmark.id, "url": url, "media": media, "title": title}
 
 
-def index(request):
+def bookmarks(request):
     items = Bookmark.objects.order_by("-created")[:5]
-    items = [process_bookmark(item) for item in items]
+    items = {"bookmarks": [process_bookmark(item) for item in items]}
 
-    context = {"items": items}
-    return render(request, "index.html", context)
+    return JsonResponse(items)
