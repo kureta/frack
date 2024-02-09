@@ -1,4 +1,0 @@
-django~=5.0
-celery[redis]~=5.3
-python-dotenv~=1.0
-psycopg[binary]~=3.1

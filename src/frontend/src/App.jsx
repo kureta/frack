@@ -16,7 +16,12 @@ class App extends React.Component {
         try {
             const response = await fetch(url, {mode: 'cors'});
             const data = await response.json();
-            this.setState({todos: data['bookmarks']});
+            this.setState({
+                todos: data['bookmarks'].map(bookmark => {
+                    bookmark.url = `http://localhost:8000${bookmark.url}`;
+                    return bookmark;
+                })
+            });
         } catch (error) {
             console.log(error);
         }

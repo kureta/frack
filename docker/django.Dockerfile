@@ -8,7 +8,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
 RUN mkdir -p /app
 WORKDIR /app
 
-COPY requirements-server.txt /app/requirements.txt
+COPY requirements.txt /app/requirements.txt
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip3 install -r requirements.txt
 
