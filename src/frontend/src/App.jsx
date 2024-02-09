@@ -42,7 +42,9 @@ class App extends React.Component {
                     <h1>Bookmarks</h1>
                     <ul>
                         {this.state.todos.map((todo) => (
-                            <li key={todo.id}><a title={todo.title} href={todo.url}>{todo.title}</a></li>
+                            <li key={todo.id}>
+                                <a title={todo.title} href={todo.url} target='_blank' rel="noreferrer">{todo.title}</a>
+                            </li>
                         ))}
                     </ul>
                 </Fragment>

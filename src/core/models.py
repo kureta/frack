@@ -14,12 +14,12 @@ SCRAPE_STATUS_CHOICES = [
 
 class Bookmark(models.Model):
     # Only URL will be set by the user
-    url = models.URLField(unique=True)
-    created = models.DateTimeField(auto_now_add=True)
+    url = models.URLField(unique=True, db_index=True)
+    created = models.DateTimeField(auto_now_add=True, db_index=True)
     scrape_status = models.CharField(max_length=16, choices=SCRAPE_STATUS_CHOICES, default="Initial")
     media_status = models.CharField(max_length=16, choices=SCRAPE_STATUS_CHOICES, default="Initial")
 
-    title = models.CharField(max_length=100, null=True)
+    title = models.CharField(max_length=100, null=True, db_index=True)
     single_file_html_path = models.FilePathField(max_length=256, path="/", recursive=True, null=True)
     media_path = models.FilePathField(max_length=256, path="/", recursive=True, null=True)
 

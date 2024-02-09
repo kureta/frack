@@ -1,4 +1,4 @@
-# TODO: get more ssettings from .env file
+# TODO: get more settings from .env file
 
 from pathlib import Path
 from dotenv import dotenv_values
