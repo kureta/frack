@@ -51,3 +51,13 @@ class Bookmark(models.Model):
             Path(self.single_file_html_path).unlink(missing_ok=True)
         if self.media_path is not None:
             Path(self.media_path).unlink(missing_ok=True)
+
+
+class Media(models.Model):
+    bookmark = models.ForeignKey(Bookmark, on_delete=models.CASCADE)
+    path = models.FilePathField(max_length=256, path="/", recursive=True)
+    url = models.URLField()
+    created = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    def __str__(self):
+        return self.url
